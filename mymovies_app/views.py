@@ -63,3 +63,18 @@ def index(request):
     return HttpResponse(context, content_type="application/json")
 
 # create sort by popularity view here
+def sort_popularity(request):
+    popularity_order=Movie_Data.objects.order_by('-popularity')
+    popularity_order_dict={}
+    
+    for i in popularity_order:
+        # print(i.movie_id)
+        popularity_order_dict[i.movie_id]={
+            "poster_path":[i.poster_path],
+            "title":[i.title],
+            "overview":[i.overview],
+            "popularity":[i.popularity]
+        }
+    # print(popularity_order_dict)
+    context=json.dumps(popularity_order_dict,indent=2)
+    return HttpResponse(context, content_type="application/json")
